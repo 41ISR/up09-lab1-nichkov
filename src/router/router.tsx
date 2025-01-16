@@ -5,7 +5,7 @@ import Search from "../pages/search";
 
 const router = createBrowserRouter([
     {
-        path:"/movie",
+        path:"/movie/*",
         element:<Movie />,
     },{
         index: true,

@@ -20,7 +20,7 @@ export const LikedMoviesStore = create<LikedMovies>()(
         set((state) => {
           return {
             ...state,
-            likedMovies: [...state.likedMovies.filter((aId) => aId === id)],
+            likedMovies: [...state.likedMovies.filter((aId) => aId !== id)],
           };
         });
       },
