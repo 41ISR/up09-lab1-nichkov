@@ -5,7 +5,7 @@ import Search from "../pages/search";
 
 const router = createBrowserRouter([
     {
-        path:"/movie/*",
+        path:"/movie/:imdbID",
         element:<Movie />,
     },{
         index: true,
