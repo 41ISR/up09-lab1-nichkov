@@ -1,26 +1,27 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { IMovie } from "../shared/api/api";
 
 interface LikedMovies {
-  likedMovies: string[];
-  addLikedMovies: (id: string) => void;
-  removeLikedMovies: (id: string) => void;
+  likedMovies: IMovie[];
+  addLikedMovies: (movie: IMovie) => void;
+  removeLikedMovies: (movie: IMovie) => void;
 }
 
 export const LikedMoviesStore = create<LikedMovies>()(
   persist(
     (set) => ({
       likedMovies: [],
-      addLikedMovies: (id) => {
+      addLikedMovies: (movie) => {
         set((state) => {
-          return { ...state, likedMovies: [...state.likedMovies, id] };
+          return { ...state, likedMovies: [...state.likedMovies, movie] };
         });
       },
-      removeLikedMovies: (id) => {
+      removeLikedMovies: (movie) => {
         set((state) => {
           return {
             ...state,
-            likedMovies: [...state.likedMovies.filter((aId) => aId !== id)],
+            likedMovies: [...state.likedMovies.filter((aId) => aId.imdbID !== movie.imdbID)],
           };
         });
       },

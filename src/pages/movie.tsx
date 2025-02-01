@@ -3,6 +3,7 @@ import OMDBApi, { SingleMovie } from "../shared/api/api";
 import { LikedMoviesStore } from "../store/store";
 import { useEffect, useState } from "react";
 import moviePoster from "./img.jpg";
+import ButtonBack from '../components/buttonBack';
 
 
 const MoviePage = () => {
@@ -10,17 +11,21 @@ const MoviePage = () => {
   const [searchResult, setSearchResult]=useState<SingleMovie | undefined>(undefined)
   useEffect(() => {
     const fetchMovie = async () => {
-      if (imdbID){
-        console.log(imdbID)
-        const res = await OMDBApi.searchSingleMovie(imdbID)
-        setSearchResult(res.Search)
-      }else{
-        console.log("андафайнед")
+      if (imdbID) {
+        console.log("ID:", imdbID);
+        const res = await OMDBApi.searchSingleMovie(imdbID);
+        console.log("res:", res);
+        setSearchResult(res.Search);
+        console.log("Search result:", res.Search);
+      } else {
+        console.log("ID undef");
       }
-    }
+    };
     fetchMovie();
-    console.log(searchResult)
-  }, [])
+  }, [imdbID]);
+  useEffect(() => {
+    console.log("Updated:", searchResult);
+  }, [searchResult]);
   //const { addLikedMovies, removeLikedMovies, likedMovies } = LikedMoviesStore((state) => state);
   // const likeMovie = () => addLikedMovies(imdbID);
   // const removeMovie = () => removeLikedMovies(imdbID);
@@ -28,6 +33,7 @@ const MoviePage = () => {
 
   return (
     <>
+      <ButtonBack />
       {searchResult && (
         <div className="film_card">
           <img src={moviePoster} alt="poster"></img>

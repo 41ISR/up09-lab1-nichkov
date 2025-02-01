@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 import moviePoster from "./img.jpg"
 const Movie = (props: IMovie) => {
   const navigate = useNavigate();
-  const likedOrNot=0
 
   const { addLikedMovies, removeLikedMovies, likedMovies } = LikedMoviesStore((state) => state);
-  const likeMovie = () => addLikedMovies(props.imdbID);
-  const removeMovie = () => removeLikedMovies(props.imdbID);
-  const isLiked = likedMovies.includes(props.imdbID);
+  const likeMovie = () => addLikedMovies(props);
+  const removeMovie = () => removeLikedMovies(props);
+  const isLiked = likedMovies.some(liked => liked.imdbID === props.imdbID);
   const goToMoviePage = () => {
     navigate(`/movie/${props.imdbID}`);
   };

@@ -44,11 +44,11 @@ const OMDBApi = {
     return res.data;
   },
   searchSingleMovie: async (id: string) => {
-    const res = await OMDBApiInstance.get<iSearchMovieIdRDO>("", {
+    const result = await OMDBApiInstance.get<iSearchMovieIdRDO>("", {
       params: { apikey: API_KEY, i: id },
     });
-    console.log(res.data);
-    return res.data;
+    console.log(result.data);
+    return result.data;
   },
 };
 export default OMDBApi;
