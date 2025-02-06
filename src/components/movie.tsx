@@ -17,8 +17,8 @@ const Movie = (props: IMovie) => {
       <img src={moviePoster} alt="poster"></img>
       <h3>{props.Title}</h3>
       <div className="year_type_cont">
-        <h4>{props.Type}</h4>
-        <h4>{props.Year}</h4>
+        <h4>Type: {props.Type}</h4>
+        <h4>Year: {props.Year}</h4>
       </div>
       <button
         onClick={(e) => {

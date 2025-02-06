@@ -19,6 +19,11 @@ export interface SingleMovie {
   Title: string;
   Type: string;
   Year: number;
+  Genre: string;
+  Actors: string;
+  Director: string;
+  Plot: string;
+  Rated: string;
   imdbID: string;
 }
 
@@ -44,7 +49,7 @@ const OMDBApi = {
     return res.data;
   },
   searchSingleMovie: async (id: string) => {
-    const result = await OMDBApiInstance.get<iSearchMovieIdRDO>("", {
+    const result = await OMDBApiInstance.get<SingleMovie>("", {
       params: { apikey: API_KEY, i: id },
     });
     console.log(result.data);

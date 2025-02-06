@@ -7,29 +7,42 @@ import ButtonBack from '../components/buttonBack';
 
 
 const MoviePage = () => {
-  const {imdbID} = useParams();
-  const [searchResult, setSearchResult]=useState<SingleMovie | undefined>(undefined)
+  const { imdbID } = useParams();
+  const [searchResult, setSearchResult] = useState<SingleMovie | undefined>(undefined);
+  const { addLikedMovies, removeLikedMovies, likedMovies } = LikedMoviesStore((state) => state);
+
+  const likeMovie = () => {
+    if (searchResult) {
+      addLikedMovies(searchResult);
+    }
+  };
+
+  const removeMovie = () => {
+    if (searchResult) {
+      removeLikedMovies(searchResult);
+    }
+  };
+
+  const isLiked = likedMovies.some(liked => liked.imdbID === imdbID);
+
   useEffect(() => {
     const fetchMovie = async () => {
       if (imdbID) {
         console.log("ID:", imdbID);
         const res = await OMDBApi.searchSingleMovie(imdbID);
         console.log("res:", res);
-        setSearchResult(res.Search);
-        console.log("Search result:", res.Search);
+        setSearchResult(res);
+        console.log("Search result:", res);
       } else {
         console.log("ID undef");
       }
     };
     fetchMovie();
   }, [imdbID]);
+
   useEffect(() => {
     console.log("Updated:", searchResult);
   }, [searchResult]);
-  //const { addLikedMovies, removeLikedMovies, likedMovies } = LikedMoviesStore((state) => state);
-  // const likeMovie = () => addLikedMovies(imdbID);
-  // const removeMovie = () => removeLikedMovies(imdbID);
-  // const isLiked = likedMovies.includes(imdbID);
 
   return (
     <>
@@ -39,26 +52,30 @@ const MoviePage = () => {
           <img src={moviePoster} alt="poster"></img>
           <h3>{searchResult.Title}</h3>
           <div className="year_type_cont">
-            <h4>{searchResult.Year}</h4>
-            <h4>{searchResult.Type}</h4>
+            <h4>Year: {searchResult.Year}</h4>
+            <h4>Type: {searchResult.Type}</h4>
+            <h4>Genre: {searchResult.Genre}</h4>
+            <h4>Actors: {searchResult.Actors}</h4>
+            <h4>Director: {searchResult.Director}</h4>
+            <h4>Rating: {searchResult.Rated}</h4>
+            <h4>Description:</h4><h5>{searchResult.Plot}</h5>
           </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isLiked) {
+                removeMovie();
+              } else {
+                likeMovie();
+              }
+            }}
+          >
+            {isLiked ? "DISLIKE!!!!!!!" : "LIKE!!!!!!!"}
+          </button>
         </div>
       )}
     </>
-      
-      
-    
   );
 };
+
 export default MoviePage;
-//   onClick={(e) => {
-      //     e.stopPropagation();
-      //     if (isLiked) {
-      //       removeMovie();
-      //     } else {
-      //       likeMovie();
-      //     }
-      //   }}
-      // >
-       //</div> {isLiked ? "DISLIKE!!!!!!!" : "LIKE!!!!!!!"}
-      //</button>
